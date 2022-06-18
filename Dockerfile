@@ -1,8 +1,8 @@
 # syntax=docker/dockerfile:1
 
-FROM golang:1.18.3 AS build
+FROM golang:1.18.3
 
-WORKDIR /go-grpc-sample
+WORKDIR /go/src/github.com/daikideal/go-grpc-sample
 
 RUN apt update && apt install unzip
 
@@ -28,14 +28,7 @@ COPY go.mod .
 COPY go.sum .
 RUN go mod download
 
-COPY *.go/ .
+COPY . .
 
-RUN go build -o ./bin/go-grpc-sample
-
-FROM ubuntu:22.10 AS run
-
-WORKDIR /root
-
-COPY --from=build /go-grpc-sample/bin/go-grpc-sample ./bin/go-grpc-sample
-
-CMD [ "./bin/go-grpc-sample" ]
+RUN go build -o ./bin/server ./server/server.go && \
+    go build -o ./bin/client ./client/client.go
