@@ -1,17 +1,26 @@
 syntax = "proto3";
 
-option go_package = "github.com/daikideal/go-grpc-sample/user";
+option go_package = "github.com/daikideal/go-grpc-sample/pb";
 
 package user;
 
 service UserService {
   rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+  rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
 }
 
 message ListUsersRequest {}
 
 message ListUsersResponse {
   repeated User users = 1;
+}
+
+message GetUserRequest {
+  string name = 1;
+}
+
+message GetUserResponse {
+  User user = 1;
 }
 
 message User {
